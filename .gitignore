@@ -7,3 +7,4 @@ app/static/.DS_Store
 app/static/data/provincie_hoofdsteden.geojson
 venv/**
 *.pyc
+dump.py
