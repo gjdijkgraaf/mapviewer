@@ -5,3 +5,6 @@ app/__pycache__/__init__.cpython-36.pyc
 app/__pycache__/routes.cpython-36.pyc
 app/static/.DS_Store
 app/static/data/provincie_hoofdsteden.geojson
+venv/**
+*.pyc
+dump.py
