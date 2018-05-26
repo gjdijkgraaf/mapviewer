@@ -1,10 +1,12 @@
-var map;
-var geojsonLayer;
-
 // start the map
 function start_map() {
-        map = new L.map('map');
+        // retrieve layers
+        layers = arguments[0];
+        for(var i=0; i<arguments[0].length; i++) {
+            layers[i].active = true
+        };
 
+        // define layer variables
         // load a tile layer
         var osm = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             {
@@ -13,28 +15,73 @@ function start_map() {
                 minZoom: 6
             });
 
-        // set the right view
-        map.setView([52.20936, 5.970745], 7);
-        map.addLayer(osm);
+        // load the overlays
+        geojsonLayers = [];
+        for(var i=0; i<layers.length; i++) {
+            geojsonLayers[i] = L.geoJSON();
+        }
 
-        // initialize layers
-        var geojsonLayer = L.geoJSON();
-        fetch_layer(geojsonLayer, arguments[0])
+        // prepare the list of layers to initialize
+        init_layers = [osm].concat(geojsonLayers)
+
+        // start the map
+        var map = new L.map('map', {
+            center: [52.1552404, 5.3850295],
+            zoom: 7,
+            layers: init_layers
+        });
+
+        // define layers for control group
+        var baseMaps = {
+            "OpenStreetMap": osm
+        };
+        var overlayMaps = {}
+        for(var i=0; i<layers.length; i++) {
+            overlayMaps[layers[i].name] = geojsonLayers[i]
+        };
+
+        // initialize control group
+        L.control.layers(baseMaps, overlayMaps, {'collapsed': false}).addTo(map);
+
+        // fill with data
+        for(var i=0; i<layers.length; i++) {
+            fetch_layer(map, geojsonLayers[i], layers[i].url)
+        };
 
         // set function for when map changes
         map.on('moveend', onMapMove);
 
-        function onMapMove() {
-            fetch_layer(geojsonLayer, "/data/1");
-        }
+        // set layers to inactive/active to prevent too much data traffic
+        map.on('overlayremove', function(overlay) {
+            for(var i=0; i<layers.length; i++) {
+                if(layers[i].name == overlay.name) {
+                    layers[i].active = false
+                }
+            }
+        });
+        map.on('overlayadd', function(overlay) {
+            for(var i=0; i<layers.length; i++) {
+                if(layers[i].name == overlay.name) {
+                    layers[i].active = true
+                }
+            }
+        });
 
-        return geojsonLayer;
+        // reload the map data when the map is moved
+        function onMapMove() {
+            for(var i=0; i<layers.length; i++) {
+                if (layers[i].active == true) {
+                    fetch_layer(map, geojsonLayers[i], layers[i].url)
+                }
+            }
+        };
+
 }
 
 
 
 // function to fetch new data from the database
-function fetch_layer(layer, base_url) {
+function fetch_layer(map, layer, base_url) {
         // clear existing data
         layer.clearLayers();
         // create url to fetch data
@@ -46,7 +93,7 @@ function fetch_layer(layer, base_url) {
         // fetch and add data
         $.getJSON(url, function(data) {
             for(var i=0; i<data[0].features.length; i++) {
-              layer.addData(data[0].features[i].feature).addTo(map)
+              layer.addData(data[0].features[i].feature)
             }
         });
 }

@@ -5,8 +5,12 @@
 
     <script>
 
-        var geojsonLayer = new start_map("/data/1");
+        var layers = [{"name": "Provincies",
+                       "url": "/data/1"},
+                      {"name": "Gemeentehuizen",
+                       "url": "/data/2"}];
 
+        start_map(layers);
 
     </script>
 {% endblock %}
