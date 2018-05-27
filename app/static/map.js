@@ -6,6 +6,12 @@ function start_map() {
             layers[i].active = true
         };
 
+        // define markeroptions
+        var markeroptions_lib = {}
+        for(var i=0; i<layers.length; i++) {
+          markeroptions_lib[layers[i].name] = layers[i].markeroptions
+        }
+
         // define layer variables
         // load a tile layer
         var osm = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -18,8 +24,17 @@ function start_map() {
         // load the overlays
         geojsonLayers = [];
         for(var i=0; i<layers.length; i++) {
-            geojsonLayers[i] = L.geoJSON();
-        }
+            // somehow, the i-index increases too far inside the pointToLayer
+            // therefore first assign a temporary variable
+            var markeroptions = markeroptions_lib[layers[i].name]
+            if (layers[i].type == 'Point') {
+              geojsonLayers[i] = L.geoJSON(null, {
+                pointToLayer: layers[i].markeroptions
+              });
+            } else {
+              geojsonLayers[i] = L.geoJSON();
+            }
+        };
 
         // prepare the list of layers to initialize
         init_layers = [osm].concat(geojsonLayers)
