@@ -2,21 +2,18 @@
 # -*- coding: utf-8 -*-
 
 from flask import render_template, url_for, jsonify
+from app import db
+from app.models import Project
 from app.main import bp
 
 @bp.route('/')
-@bp.route('/index')
+@bp.route('/map')
 def index():
     user = {'username': 'Gerrit Jan'}
-    return render_template('index.html', title='Home', user=user)
+    return render_template('map.html', title='Home', user=user)
 
-@bp.route('/test')
-def test():
-    user = {'username': 'Gerrit Jan'}
-    shape = 'data/provincie_hoofdsteden.geojson'
-    return render_template('test.html', title='Test', user=user, shape=shape)
-
-# 2: write functionality to load data from database based on #1
-# 3: write functionality for different projections
-# 4: support for users/projects
-# 5: admin
+@bp.route('/projects')
+def projects():
+    user = {'username': 'Gerrit Jan', 'role': 'admin'}
+    projects = Project.query.all()
+    return render_template('projects.html', title='Projects', user=user)

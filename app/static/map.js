@@ -20,10 +20,13 @@ function start_map() {
         for(var i=0; i<layers.length; i++) {
             if (layers[i].type == 'Point') {
               geojsonLayers[i] = L.geoJSON(null, {
-                pointToLayer: layers[i].markeroptions
+                pointToLayer: layers[i].pointtolayer,
+                onEachFeature: layers[i].oneachfeature
               });
             } else {
-              geojsonLayers[i] = L.geoJSON();
+              geojsonLayers[i] = L.geoJSON(null, {
+                style: layers[i].style
+              });
             }
         };
 
