@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+  <div class="container" style="margin-top:50px">
+        <h1>Available projects</h1>
+
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Project name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Layers</th>
+              {% if user.role == 'admin' %}
+              <th scope="col">Actions</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+          {% for project in projects %}
+            <tr>
+              <th scope="row">{{ project.project_id }}</th>
+              <td>{{ project.name }}</td>
+              <td>{{ project.type }}</td>
+              <td>
+                <ul>
+                  {% for layer in project.layers %}
+                  <li>{{ layer.layer_id }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+              {% if user.role == 'admin' %}
+              <td><a href="{{ url_for('main.edit_layer', project_id=project.project_id) }}">Edit</a> <a href="/delete">Delete</a></td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+        {% if user.role == 'admin' %}
+        <span>
+          <a href="{{ url_for('main.add_project') }}">Click here to add a project.</a>
+        </span>
+        {% endif %}
+  </div>
+
+{% endblock %}

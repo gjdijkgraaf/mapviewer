@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <div class="container" style="margin-top:50px">
+    <h1>Add a project</h1>
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">{{ form.name.label }}</th>
+            <th scope="col">{{ form.name(size=64) }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ form.description.label }}</td>
+            <td>{{ form.description(size=64) }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.users.label }}</td>
+            <td>{{ form.users() }} </td>
+          </tr>
+          <tr>
+            <td>{{ form.layers.label }}</td>
+            <td>{{ form.layers() }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>{{ form.submit() }}
+    </div>
+
+{% endblock %}

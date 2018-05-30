@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+  <div class="container" style="margin-top:50px">
+        <h1>Available layers</h1>
+
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Table name</th>
+              <th scope="col">Type</th>
+              <th scope="col">Description</th>
+              {% if user.role == 'admin' %}
+              <th scope="col">Actions</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+          {% for layer in layers %}
+            <tr>
+              <th scope="row">{{ layer.layer_id }}</th>
+              <td>{{ layer.tablename }}</td>
+              <td>{{ layer.type }}</td>
+              <td>{{ layer.description }}</td>
+              {% if user.role == 'admin' %}
+              <td><a href="{{ url_for('main.edit_layer', layer_id=layer.layer_id) }}">Edit</a> <a href="/delete">Delete</a></td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+        {% if user.role == 'admin' %}
+        <span>
+          <a href="{{ url_for('main.add_layer') }}">Click here to add a layer.</a>
+        </span>
+        {% endif %}
+  </div>
+
+{% endblock %}
