@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <div class="container" style="margin-top:50px">
+    <h1>Please sign in</h1>
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <table class="table table-striped" style="width:auto;">
+        <thead>
+          <tr>
+            <th scope="col">{{ form.username.label }}</th>
+            <th scope="col">{{ form.username(size=32) }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ form.password.label }}</td>
+            <td>{{ form.password(size=32) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+      <p>{{ form.submit() }}</p>
+    </div>
+
+{% endblock %}

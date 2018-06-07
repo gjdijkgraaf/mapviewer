@@ -18,7 +18,7 @@ function start_map() {
         // load the overlays
         geojsonLayers = [];
         for(var i=0; i<layers.length; i++) {
-            if (layers[i].type == 'Point') {
+            if (layers[i].geometry_type == 'Point') {
               geojsonLayers[i] = L.geoJSON(null, {
                 pointToLayer: layers[i].pointtolayer,
                 onEachFeature: layers[i].oneachfeature

@@ -2,14 +2,14 @@
 
 {% block app_content %}
   <div class="container" style="margin-top:50px">
-    <h1>Edit layer with ID {{ layer_id }}</h1>
+    <h1>Edit layer</h1>
     <form action="" method="post">
       {{ form.hidden_tag() }}
       <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">{{ form.tablename.label }}</th>
-            <th scope="col">{{ form.tablename(size=64) }}</th>
+            <th scope="col">{{ form.tablename() }}</th>
           </tr>
         </thead>
         <tbody>
@@ -18,8 +18,19 @@
             <td>{{ form.description(size=64) }}</td>
           </tr>
           <tr>
-            <td>{{ form.type.label }}</td>
-            <td>{{ form.type() }} </td>
+            <td>{{ form.geometry_type.label }}</td>
+            <td>
+              {% for subfield in form.geometry_type %}
+              {{ subfield }}  {{ subfield.label }}</br>
+              {% endfor %}
+            </td>
+          </tr>
+          <tr>
+            <td>{{ form.geometry_column.label }}</td>
+            <td>{{ form.geometry_column(size=64) }}</td>
+          </tr>
+            <td>{{ form.id_column.label }}</td>
+            <td>{{ form.id_column(size=64) }}</td>
           </tr>
         </tbody>
       </table>

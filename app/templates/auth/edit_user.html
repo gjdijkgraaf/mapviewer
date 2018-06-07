@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <div class="container" style="margin-top:50px">
+    <h1>Edit a user</h1>
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">{{ form.username.label }}</th>
+            <th scope="col">{{ form.username(disabled=True) }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ form.displayname.label }}</td>
+            <td>{{ form.displayname(size=64) }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.role.label }}</td>
+            <td>{{ form.role() }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.password.label }}</td>
+            <td>{{ form.password(size=64) }}</td>
+          </tr>
+            <td>{{ form.password2.label }}</td>
+            <td>{{ form.password2(size=64) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>{{ form.submit() }}
+    </div>
+
+{% endblock %}

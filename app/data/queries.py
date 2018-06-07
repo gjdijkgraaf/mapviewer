@@ -18,3 +18,9 @@ FROM (
         FROM {2}
         WHERE {2}.{1} && ST_MakeEnvelope({3}, {4}, {5}, {6}, {7})
         ) inputs) features;"""
+
+    postgresql_list_tables = """
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema='public'
+AND table_type='BASE TABLE';"""

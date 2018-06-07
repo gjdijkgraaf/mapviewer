@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <div class="container" style="margin-top:50px">
+    <h1>Delete layerview</h1>
+    <p>Do you really want to delete layerview "{{ layerview.name }}"?</p>
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      {% for subfield in form.confirmation %}
+      {{ subfield }}  {{ subfield.label }}</br>
+      {% endfor %}
+      <p>{{ form.submit() }}</p>
+    </div>
+
+{% endblock %}

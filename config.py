@@ -6,6 +6,8 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dummy-key-you-wont-guess'
     DATABASE_CONN_STRING = os.environ.get('DATABASE_CONN_STRING') or \
         "dbname='gerritjandijkgraaf' user='gerritjandijkgraaf' host='localhost' password=''"
+    IGNORE_TABLE_NAMES = os.environ.get('IGNORE_TABLE_NAMES') or \
+        ['spatial_ref_sys']
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'postgresql://gerritjandijkgraaf:@localhost:5432/postgres'
     SQLALCHEMY_TRACK_MODIFICATIONS = False

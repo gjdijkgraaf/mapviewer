@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+  <div class="container" style="margin-top:50px">
+        <h1>User overview</h1>
+
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Username</th>
+              <th scope="col">Display name</th>
+              <th scope="col">Role</th>
+              {% if user.role == 'admin' %}
+              <th scope="col">Actions</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+          {% for user in users %}
+            <tr>
+              <th scope="row">{{ user.id }}</th>
+              <td>{{ user.username }}</td>
+              <td>{{ user.displayname }}</td>
+              <td>{{ user.role }}</td>
+              {% if current_user.role == 'admin' %}
+              <td><a href="{{ url_for('auth.edit_user', user_id=user.user_id) }}">Edit</a> <a href="#">Delete</a></td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+  </div>
+
+{% endblock %}

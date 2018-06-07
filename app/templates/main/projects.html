@@ -11,8 +11,9 @@
               <th scope="col">ID</th>
               <th scope="col">Project name</th>
               <th scope="col">Description</th>
-              <th scope="col">Layers</th>
-              {% if user.role == 'admin' %}
+              {% if current_user.role == 'admin' %}
+              <th scope="col">Layer views</th>
+              <th scope="col">Users</th>
               <th scope="col">Actions</th>
               {% endif %}
             </tr>
@@ -21,24 +22,27 @@
           {% for project in projects %}
             <tr>
               <th scope="row">{{ project.project_id }}</th>
-              <td>{{ project.name }}</td>
-              <td>{{ project.type }}</td>
+              <td><a href="{{ url_for('main.map', project_name=project.name) }}">{{ project.name }}</a></td>
+              <td>{{ project.description }}</td>
+              {% if current_user.role == 'admin' %}
               <td>
-                <ul>
-                  {% for layer in project.layers %}
-                  <li>{{ layer.layer_id }}</li>
-                  {% endfor %}
-                </ul>
+                {% for layerview in project.layerviews %}
+                {{ layerview.order }} {{ layerview.name }}<br>
+                {% endfor %}
               </td>
-              {% if user.role == 'admin' %}
-              <td><a href="{{ url_for('main.edit_layer', project_id=project.project_id) }}">Edit</a> <a href="/delete">Delete</a></td>
+              <td>
+                {% for user in project.users %}
+                {{ user.username }}<br>
+                {% endfor %}
+              </td>
+              <td><a href="{{ url_for('main.edit_project', project_id=project.project_id) }}">Edit</a> <a href="{{ url_for('main.delete_project', project_id=project.project_id) }}">Delete</a></td>
               {% endif %}
             </tr>
           {% endfor %}
           </tbody>
         </table>
 
-        {% if user.role == 'admin' %}
+        {% if current_user.role == 'admin' %}
         <span>
           <a href="{{ url_for('main.add_project') }}">Click here to add a project.</a>
         </span>

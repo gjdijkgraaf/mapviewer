@@ -20,20 +20,39 @@
     <nav class="navbar navbar-dark bg-dark navbar-expand-md navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">Map</a>
+                <span class="navbar-brand">Mapviewer</span>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
+            {% if not current_user.is_anonymous %}
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.projects') }}">Projects</a>
                     </li>
-                    <li class="nav-item">
+                    {% if current_user.role == 'admin' %}
+                      <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.layers') }}">Layers</a>
-                    </li>
+                      </li>
+                    {% endif %}
                 </ul>
+            </div>
+            <div class="nav navbar-nav navbar-right">
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ current_user.displayname }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {% if current_user.role == 'admin' %}
+                    <a class="dropdown-item" href="{{ url_for('auth.add_user') }}">Add user</a>
+                    <a class="dropdown-item" href="{{ url_for('auth.user_overview') }}">User overview</a>
+                  {% endif %}
+                    <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Sign out</a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
             </div>
         </div>
     </nav>

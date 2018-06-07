@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <div class="container" style="margin-top:50px">
+    <h1>Edit project</h1>
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col" style="width:20%">{{ form.name.label }}</th>
+            <th scope="col" style="width:80%">{{ form.name(size=64) }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ form.description.label }}</td>
+            <td>{{ form.description(size=64) }}</td>
+          </tr>
+          <tr>
+            <td>Layer views</td>
+            <td>
+              {% for layerview in project.layerviews %}
+              <p style="text-align:left;">
+                {{ layerview.order }} {{ layerview.name }}
+                <span style="float: right;">
+                  <a href="{{ url_for('main.edit_layerview', layerview_id=layerview.layerview_id) }}">Edit</a> <a href="{{ url_for('main.delete_layerview', layerview_id=layerview.layerview_id) }}">Delete</a>
+                </span>
+              </p>
+              {% endfor %}
+              <a href="{{ url_for('main.add_layerview', project_id=project.project_id) }}">Add layerview</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Users</td>
+            <td>
+              {% for user in project.users %}
+              <p style="text-align:left;">
+                {{ user.username }}
+                <span style="float: right;">
+                  <a href="{{ url_for('main.remove_user_from_project', user_id=user.id, project_id=project.project_id) }}">Remove</a>
+                </span>
+              </p>
+              {% endfor %}
+              <a href="{{ url_for('main.add_user_to_project', project_id=project.project_id) }}">Add user</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>{{ form.submit() }}
+    </div>
+
+{% endblock %}
