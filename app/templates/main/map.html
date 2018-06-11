@@ -10,7 +10,7 @@
         {
         {% for layerview in project.layerviews %}
           "name": "{{ layerview.name }}",
-          "url": "/data/{{ layerview.layer.tablename }}",
+          "url": "/data/{{ layerview.layer.tablename }}?project_id={{ project.project_id }}",
           "geometry_type": "{{ layerview.layer.geometry_type }}",
           "pointtolayer": {{ layerview.pointtolayer|safe }},
           "style": {{ layerview.style }},

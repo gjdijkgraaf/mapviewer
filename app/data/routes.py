@@ -7,13 +7,17 @@ from flask_login import current_user
 from app.data import bp
 from app.data import queries
 from app.data.checks import is_number
-from app.models import Layer
+from app.models import Layer, Project
 
 
 @bp.route('/data/<tablename>', methods=['GET', 'POST'])
 def data(tablename):
     # check if user is allowed to access this data
     ## to be implemented ##
+    project_id = request.args.get('project_id')
+    project = Project.query.get(project_id)
+    if current_user not in project.users:
+        return jsonify("")
 
     # set crs
     crs = 4326

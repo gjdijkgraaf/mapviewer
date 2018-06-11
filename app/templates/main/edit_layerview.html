@@ -9,33 +9,71 @@
         <thead>
           <tr>
             <th scope="col" style="width:20%">{{ form.name.label }}</th>
-            <th scope="col" style="width:80%">{{ form.name(size=64) }}</th>
+            <th scope="col" style="width:60%">{{ form.name(size=64) }}</th>
+            <th scope="col" style="width:20%"></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>{{ form.order.label }}</td>
             <td>{{ form.order() }}</td>
+            <td></td>
           </tr>
           <tr>
             <td>{{ form.description.label }}</td>
             <td>{{ form.description(size=64) }}</td>
+            <td></td>
           </tr>
           <tr>
             <td>{{ form.pointtolayer.label }}</td>
             <td>{{ form.pointtolayer(rows='10', cols='80') }}</td>
+            <td>
+              <a onclick="fillTemplateFunction('pointtolayer')" href="#">Use the template</a>
+            </td>
           </tr>
           <tr>
             <td>{{ form.style.label }}</td>
             <td>{{ form.style(rows='10', cols='80') }}</td>
+            <td>
+              <a onclick="fillTemplateFunction('style')" href="#">Use the template</a>
+            </td>
           </tr>
           <tr>
             <td>{{ form.oneachfeature.label }}</td>
             <td>{{ form.oneachfeature(rows='10', cols='80') }}</td>
+            <td>
+              <a onclick="fillTemplateFunction('oneachfeature')" href="#">Use the template</a>
+            </td>
           </tr>
         </tbody>
       </table>
       <p>{{ form.submit() }}
     </div>
+
+    <script>
+      function fillTemplateFunction(field) {
+        if (field == 'pointtolayer') {
+          var fieldValue = '\
+function(feature, latlng) { \n\
+  return L.circleMarker(latlng, { \n\
+    radius: 8, \n\
+    fillColor: "#ff7800", \n\
+    color: "#000", \n\
+    weight: 1, \n\
+    opacity: 1, \n\
+    fillOpacity: 0.8 \n\
+  }); \n\
+}'
+        } else if (field == 'style') {
+          var fieldValue = '\
+{}'
+        } else if (field == 'oneachfeature') {
+          var fieldValue = '\
+function () {}'
+        }
+
+        document.getElementById(field).value = fieldValue
+      }
+    </script>
 
 {% endblock %}

@@ -50,7 +50,7 @@ function start_map() {
         };
 
         // initialize control group
-        L.control.layers(baseMaps, overlayMaps, {'collapsed': false}).addTo(map);
+        L.control.layers(baseMaps, overlayMaps, {'collapsed': false, position: 'topright'}).addTo(map);
 
         // fill with data
         for(var i=0; i<layers.length; i++) {
@@ -95,7 +95,7 @@ function fetch_layer(map, layer, base_url) {
         layer.clearLayers();
         // create url to fetch data
         var bounds = map.getBounds();
-        var url = base_url.concat("?xmin=", bounds._southWest.lng,
+        var url = base_url.concat("&xmin=", bounds._southWest.lng,
                                   "&ymin=", bounds._southWest.lat,
                                   "&xmax=", bounds._northEast.lng,
                                   "&ymax=", bounds._northEast.lat)
